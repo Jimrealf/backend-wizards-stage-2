@@ -4,7 +4,6 @@ import { parsePagination } from "../utils/pagination.js";
 import { parseSorting } from "../utils/sorting.js";
 import { parseQuery } from "../search/parser.js";
 import { runProfileQuery } from "../utils/profileQuery.js";
-import { ProfileListResponse } from "../types/api.js";
 
 const router = Router();
 
@@ -21,15 +20,7 @@ router.get("/", async (req: Request, res: Response) => {
 
   const pagination = parsePagination(req.query);
   const sorting = parseSorting(req.query);
-  const { rows, total } = await runProfileQuery(filters, sorting, pagination);
-
-  const body: ProfileListResponse = {
-    status: "success",
-    page: pagination.page,
-    limit: pagination.limit,
-    total,
-    data: rows,
-  };
+  const body = await runProfileQuery(filters, sorting, pagination);
   res.json(body);
 });
 

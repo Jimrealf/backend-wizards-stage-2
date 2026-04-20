@@ -28,9 +28,11 @@ export async function initSchema(): Promise<void> {
     )
   `;
 
-  await sql`CREATE INDEX IF NOT EXISTS idx_profiles_gender ON profiles (gender)`;
-  await sql`CREATE INDEX IF NOT EXISTS idx_profiles_age ON profiles (age)`;
-  await sql`CREATE INDEX IF NOT EXISTS idx_profiles_age_group ON profiles (age_group)`;
-  await sql`CREATE INDEX IF NOT EXISTS idx_profiles_country_id ON profiles (country_id)`;
-  await sql`CREATE INDEX IF NOT EXISTS idx_profiles_created_at ON profiles (created_at)`;
+  await Promise.all([
+    sql`CREATE INDEX IF NOT EXISTS idx_profiles_gender ON profiles (gender)`,
+    sql`CREATE INDEX IF NOT EXISTS idx_profiles_age ON profiles (age)`,
+    sql`CREATE INDEX IF NOT EXISTS idx_profiles_age_group ON profiles (age_group)`,
+    sql`CREATE INDEX IF NOT EXISTS idx_profiles_country_id ON profiles (country_id)`,
+    sql`CREATE INDEX IF NOT EXISTS idx_profiles_created_at ON profiles (created_at)`,
+  ]);
 }

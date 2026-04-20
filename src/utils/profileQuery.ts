@@ -1,5 +1,5 @@
 import { sql } from "./db.js";
-import { ProfileData, AgeGroup } from "../types/api.js";
+import { ProfileData, ProfileListResponse, AgeGroup } from "../types/api.js";
 import { Pagination } from "./pagination.js";
 import { Sorting } from "./sorting.js";
 
@@ -11,11 +11,6 @@ export interface ProfileFilters {
   max_age?: number;
   min_gender_probability?: number;
   min_country_probability?: number;
-}
-
-export interface ProfileQueryResult {
-  rows: ProfileData[];
-  total: number;
 }
 
 function buildWhere(filters: ProfileFilters) {
@@ -41,7 +36,7 @@ export async function runProfileQuery(
   filters: ProfileFilters,
   sorting: Sorting,
   pagination: Pagination,
-): Promise<ProfileQueryResult> {
+): Promise<ProfileListResponse> {
   const where = buildWhere(filters);
   const orderDir = sorting.order === "asc" ? sql`ASC` : sql`DESC`;
 
@@ -57,5 +52,11 @@ export async function runProfileQuery(
     `,
   ]);
 
-  return { rows, total: Number(countRows[0].count) };
+  return {
+    status: "success",
+    page: pagination.page,
+    limit: pagination.limit,
+    total: Number(countRows[0].count),
+    data: rows,
+  };
 }

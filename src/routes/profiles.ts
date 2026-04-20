@@ -17,7 +17,7 @@ import { fetchNationalityPrediction } from "../services/nationalize.js";
 import { sql } from "../utils/db.js";
 import { badGateway, notFound } from "../utils/errors.js";
 import { nameForCode } from "../search/countries.js";
-import { ProfileData, ProfileSuccessResponse, ProfileListResponse } from "../types/api.js";
+import { ProfileData, ProfileSuccessResponse } from "../types/api.js";
 
 const router = Router();
 
@@ -124,15 +124,7 @@ router.get("/", async (req: Request, res: Response) => {
     min_country_probability: parseFloatBound(req.query.min_country_probability),
   };
 
-  const { rows, total } = await runProfileQuery(filters, sorting, pagination);
-
-  const body: ProfileListResponse = {
-    status: "success",
-    page: pagination.page,
-    limit: pagination.limit,
-    total,
-    data: rows,
-  };
+  const body = await runProfileQuery(filters, sorting, pagination);
   res.json(body);
 });
 

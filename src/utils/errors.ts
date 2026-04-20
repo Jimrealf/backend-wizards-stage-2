@@ -32,8 +32,20 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ): void {
-  const statusCode = err instanceof AppError ? err.statusCode : 500;
-  const message = err instanceof AppError ? err.message : "Internal server error";
+  let statusCode = 500;
+  let message = "Internal server error";
+
+  if (err instanceof AppError) {
+    statusCode = err.statusCode;
+    message = err.message;
+  } else {
+    const framework = err as Error & { statusCode?: number; status?: number };
+    const frameworkStatus = framework.statusCode ?? framework.status;
+    if (typeof frameworkStatus === "number" && frameworkStatus >= 400 && frameworkStatus < 500) {
+      statusCode = frameworkStatus;
+      message = "Invalid request body";
+    }
+  }
 
   const correlationId = Math.random().toString(36).substring(2, 10);
   console.error(`[${correlationId}] ${err.message}`, err.stack);

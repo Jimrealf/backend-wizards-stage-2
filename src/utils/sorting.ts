@@ -17,7 +17,7 @@ const DEFAULT_ORDER: SortOrder = "desc";
 
 export function parseSorting(query: ParsedQs): Sorting {
   const rawColumn = query.sort_by;
-  const rawOrder = query.order;
+  const rawOrder = query.sort_order;
 
   let column: SortColumn = DEFAULT_COLUMN;
   if (rawColumn !== undefined) {

@@ -7,7 +7,7 @@ export function validateName(raw: unknown): string {
   }
 
   if (typeof raw !== "string") {
-    throw unprocessable("Parameter 'name' must be a string");
+    throw badRequest("Parameter 'name' must be a string");
   }
 
   const trimmed = raw.trim();

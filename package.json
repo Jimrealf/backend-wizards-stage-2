@@ -1,0 +1,31 @@
+{
+  "name": "backend-wizards-stage-2",
+  "version": "1.0.0",
+  "description": "HNG Backend Wizards Stage 2 - Intelligence Query Engine",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "seed": "tsx --env-file=.env scripts/seed.ts",
+    "test": "vitest run src"
+  },
+  "author": "Jim Haastrup",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "postgres": "^3.4.9",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
+  }
+}

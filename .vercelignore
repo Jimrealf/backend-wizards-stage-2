@@ -1,0 +1,6 @@
+*.md
+!README.md
+*.d
+AGENTS.md
+todo.md
+commit.md
